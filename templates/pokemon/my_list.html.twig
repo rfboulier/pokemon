@@ -10,16 +10,12 @@
 {% endblock %}
 
 {% block body %}
-    <div class="sort_button">
-        <a href="{{ path('pokemon_tri_param', { param: 'attack' }) }}">Trier par puissance d'attaque</a>
-        <a href="{{ path('pokemon_tri_param', { param: 'capture' }) }}">Trier par capture</a>
-    </div>
-
     <section class="pokemon-grid">
         {% for pokemon in pokemons %}
             <div class="pokemon-card">
                 <div class="pokeball_div">
                     <form method="post" action="{{ path('pokemon_capture', { id: pokemon.id }) }}">
+                        <input type="hidden" name="redirect" value="{{ app.request.uri }}">
                         <button type="submit" class="pokeball-button" title="{{ pokemon.estCapture == 1 ? 'Relâcher' : 'Capturer' }}">
                             <img
                                     src="{{ asset('img/' ~ (pokemon.estCapture == 1 ? 'pokeball-ok.jpg' : 'pokeball-ko.jpg')) }}"

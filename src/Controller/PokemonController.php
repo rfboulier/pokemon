@@ -32,16 +32,18 @@ public function detail(PokemonBase $pokemon, PokemonBaseRepository $pokemonBaseR
     public function triParam(string $param, PokemonBaseRepository $repo): Response
     {
         switch ($param) {
-            case 'nom':
-                $pokemons = $repo->sortByAlphab();
-                break;
+
 
             case 'capture':
                 $pokemons = $repo->sortByCapture(); // à créer dans ton repo
                 break;
 
+            case 'attack':
+                $pokemons = $repo->sortByAttack();
+                break;
+
             default:
-                $pokemons = $repo->findAll(); // fallback au cas où le paramètre est invalide
+                $pokemons = $repo->sortByAlphab(); // fallback au cas où le paramètre est invalide
         }
 
         return $this->render('pokemon/list.html.twig', [
@@ -49,7 +51,7 @@ public function detail(PokemonBase $pokemon, PokemonBaseRepository $pokemonBaseR
         ]);
     }
 
-    #[Route('/capture/{id}', name: 'capture', methods: ['POST'], requirements:['id' =>'\d+'])]
+/*    #[Route('/capture/{id}', name: 'capture', methods: ['POST'], requirements:['id' =>'\d+'])]
     public function toggleCapture(PokemonBase $pokemon, EntityManagerInterface $em): Response
     {
         $pokemon->setEstCapture($pokemon->getEstCapture() ? 0 : 1);
@@ -58,5 +60,30 @@ public function detail(PokemonBase $pokemon, PokemonBaseRepository $pokemonBaseR
 
         // Redirection vers la liste
         return $this->redirectToRoute('pokemon_list');
+    }*/
+    #[Route('/capture/{id}', name: 'capture', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function toggleCapture(
+        PokemonBase $pokemon,
+        EntityManagerInterface $em,
+        \Symfony\Component\HttpFoundation\Request $request
+    ): Response {
+        $pokemon->setEstCapture($pokemon->getEstCapture() ? 0 : 1);
+        $em->persist($pokemon);
+        $em->flush();
+
+        $redirectUrl = $request->request->get('redirect');
+
+        return $this->redirect($redirectUrl ?: $this->generateUrl('pokemon_list'));
+    }
+
+
+    #[Route('/captured', name: 'captured', methods: ['GET'])]
+    public function captured(PokemonBaseRepository $pokemonBaseRepository): Response
+    {
+        $pokemons = $pokemonBaseRepository->filterCaptured();
+
+        return $this->render('pokemon/my_list.html.twig', [
+            'pokemons' => $pokemons,
+        ]);
     }
 }

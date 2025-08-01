@@ -4,16 +4,19 @@
     Accueil | {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+{% endblock %}
+
 {% block body %}
-    <div style="
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        text-align: center;">
-        <a href="{{ path('pokemon_list') }}"><img src="{{ asset('img/pokemon_logo.svg.png') }}" width="50%" height="auto">
-        <h1>Attrapez-les tous !</h1>
-        </a>
+    <div class="home-container">
+        <img src="{{ asset('img/pokemon_logo.svg.png') }}" alt="Pokémon" class="home-logo">
+        <h1 class="home-title">Attrapez-les tous !</h1>
+        <p class="home-subtitle">Découvrez tous les Pokémon, constituez votre équipe et devenez le meilleur dresseur.</p>
+        <div class="home-buttons">
+            <a href="{{ path('pokemon_list') }}">Voir tous les Pokémon</a>
+            <a href="{{ path('pokemon_captured') }}">Mes Pokémon capturés</a>
+        </div>
     </div>
 {% endblock %}
