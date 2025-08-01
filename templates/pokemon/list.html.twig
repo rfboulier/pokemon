@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Liste des Pokémons | {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/pokemon.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="sort_button">
+        <a href="{{ path('pokemon_tri_param', { param: 'nom' }) }}">Trier par nom</a>
+        <a href="{{ path('pokemon_tri_param', { param: 'capture' }) }}">Trier par capture</a>
+    </div>
+
+    <section class="pokemon-grid">
+        {% for pokemon in pokemons %}
+            <div class="pokemon-card">
+                <div class="pokeball_div">
+                    {% if pokemon.estCapture == 1 %}
+                        <img class="pokeball" src="{{ asset('img/pokeball-ok.jpg') }}" alt="Capturé" width="14px" height="14px">Relâcher
+                    {% else %}
+                        <img class="pokeball" src="{{ asset('img/pokeball-ko.jpg') }}" alt="Non capturé" width="14px" height="14px">Capturer
+                    {% endif %}
+                </div>
+
+                <h2 class="pokemon-name">
+                    {{ pokemon.nom }}
+
+                </h2>
+                <img src="{{ asset('img/' ~ pokemon.image) }}" alt="{{ pokemon.nom }}">
+                <a href="{{ path('pokemon_detail', {'id': pokemon.id}) }}">Détails</a>
+
+
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

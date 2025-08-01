@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/pokemon_detail.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="pokemon-detail-container">
+        <a href="{{ path('pokemon_list') }}">Retourner à la liste</a>
+
+        <h1>{{ pokemon.nom }}</h1>
+        <img src="{{ asset('img/' ~ pokemon.image) }}" alt="{{ pokemon.nom }}">
+        <p>{{ pokemon.description }}</p>
+
+        <div class="stats">
+            <div>
+                <h3>Attaque</h3>
+                <p>{{ pokemon.attaque }}</p>
+            </div>
+            <div>
+                <h3>Défense</h3>
+                <p>{{ pokemon.defense }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    {{ pokemon.nom }} | {{ parent() }}
+{% endblock %}

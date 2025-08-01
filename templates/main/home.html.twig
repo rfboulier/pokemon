@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Accueil | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;">
+        <a href="{{ path('pokemon_list') }}"><img src="{{ asset('img/pokemon_logo.svg.png') }}" width="50%" height="auto">
+        <h1>Attrapez-les tous !</h1>
+        </a>
+    </div>
+{% endblock %}
