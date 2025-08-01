@@ -19,11 +19,16 @@
         {% for pokemon in pokemons %}
             <div class="pokemon-card">
                 <div class="pokeball_div">
-                    {% if pokemon.estCapture == 1 %}
-                        <img class="pokeball" src="{{ asset('img/pokeball-ok.jpg') }}" alt="Capturé" width="14px" height="14px">Relâcher
-                    {% else %}
-                        <img class="pokeball" src="{{ asset('img/pokeball-ko.jpg') }}" alt="Non capturé" width="14px" height="14px">Capturer
-                    {% endif %}
+                    <form method="post" action="{{ path('pokemon_capture', { id: pokemon.id }) }}">
+                        <button type="submit" class="pokeball-button" title="{{ pokemon.estCapture == 1 ? 'Relâcher' : 'Capturer' }}">
+                            <img
+                                    src="{{ asset('img/' ~ (pokemon.estCapture == 1 ? 'pokeball-ok.jpg' : 'pokeball-ko.jpg')) }}"
+                                    alt="{{ pokemon.estCapture == 1 ? 'Capturé' : 'Non capturé' }}"
+                                    class="pokeball-icon"
+                            >
+                            {{ pokemon.estCapture == 1 ? 'Relâcher' : 'Capturer' }}
+                        </button>
+                    </form>
                 </div>
 
                 <h2 class="pokemon-name">

@@ -61,6 +61,31 @@
     margin-right: 8px;
 }
 
+.pokeball-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.8rem;
+}
+
+.pokeball-button img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    transition: transform 0.2s;
+}
+
+.pokeball-button:hover img {
+    transform: scale(1.1);
+}
+
 
 
 .sort_button {

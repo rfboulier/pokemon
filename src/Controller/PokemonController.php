@@ -7,6 +7,7 @@ use App\Repository\PokemonBaseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/pokemon', name: 'pokemon_')]
 final class PokemonController extends AbstractController
@@ -46,5 +47,16 @@ public function detail(PokemonBase $pokemon, PokemonBaseRepository $pokemonBaseR
         return $this->render('pokemon/list.html.twig', [
             'pokemons' => $pokemons,
         ]);
+    }
+
+    #[Route('/capture/{id}', name: 'capture', methods: ['POST'], requirements:['id' =>'\d+'])]
+    public function toggleCapture(PokemonBase $pokemon, EntityManagerInterface $em): Response
+    {
+        $pokemon->setEstCapture($pokemon->getEstCapture() ? 0 : 1);
+        $em->persist($pokemon);
+        $em->flush();
+
+        // Redirection vers la liste
+        return $this->redirectToRoute('pokemon_list');
     }
 }
